@@ -1,1 +1,262 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="google-site-verification" content="xxxx">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>英単語クイズ</title>
 
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      margin: 0;
+      text-align: center;
+    }
+
+    header {
+      background: #2563eb;
+      color: white;
+      padding: 20px;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 30px auto;
+      background: white;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .question {
+      font-size: 28px;
+      margin: 25px 0;
+      font-weight: bold;
+    }
+
+    .options button {
+      display: block;
+      width: 90%;
+      margin: 12px auto;
+      padding: 15px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      background: #e5e7eb;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .options button:hover {
+      background: #c7d2fe;
+    }
+
+    .correct {
+      background: #22c55e !important;
+      color: white;
+    }
+
+    .wrong {
+      background: #ef4444 !important;
+      color: white;
+    }
+
+    #result {
+      font-size: 22px;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    #nextBtn, #restartBtn {
+      margin-top: 20px;
+      padding: 12px 25px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
+      display: none;
+    }
+
+    .score {
+      margin-top: 15px;
+      font-size: 18px;
+    }
+
+    .ad {
+      max-width: 700px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #fff7ed;
+      border: 2px dashed #fb923c;
+      color: #9a3412;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>英単語クイズ</header>
+
+<div class="ad">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8398161859137802"
+     crossorigin="anonymous"></script>
+<!-- チェス -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8398161859137802"
+     data-ad-slot="5599163841"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
+<div class="container">
+  <div class="score">
+    問題 <span id="currentNum">1</span> / <span id="totalNum">30</span>
+    ｜ 正解数：<span id="score">0</span>
+  </div>
+
+  <div class="question" id="question">Loading...</div>
+
+  <div class="options" id="options"></div>
+
+  <div id="result"></div>
+
+  <button id="nextBtn" onclick="nextQuestion()">次の問題へ</button>
+  <button id="restartBtn" onclick="restartQuiz()">もう一度やる</button>
+</div>
+
+<script>
+const quizData = [
+  { word: "apple", answer: "りんご", options: ["りんご", "みかん", "ぶどう", "いちご"] },
+  { word: "book", answer: "本", options: ["本", "机", "椅子", "鉛筆"] },
+  { word: "dog", answer: "犬", options: ["猫", "犬", "鳥", "魚"] },
+  { word: "cat", answer: "猫", options: ["犬", "馬", "猫", "牛"] },
+  { word: "water", answer: "水", options: ["火", "水", "風", "土"] },
+  { word: "fire", answer: "火", options: ["水", "火", "空", "海"] },
+  { word: "school", answer: "学校", options: ["病院", "学校", "駅", "銀行"] },
+  { word: "teacher", answer: "先生", options: ["医者", "先生", "警察官", "料理人"] },
+  { word: "student", answer: "生徒", options: ["先生", "生徒", "店員", "運転手"] },
+  { word: "car", answer: "車", options: ["電車", "自転車", "車", "飛行機"] },
+
+  { word: "house", answer: "家", options: ["家", "学校", "店", "公園"] },
+  { word: "family", answer: "家族", options: ["友達", "家族", "先生", "客"] },
+  { word: "friend", answer: "友達", options: ["敵", "友達", "家族", "先生"] },
+  { word: "happy", answer: "幸せな", options: ["悲しい", "怒った", "幸せな", "眠い"] },
+  { word: "sad", answer: "悲しい", options: ["楽しい", "悲しい", "強い", "速い"] },
+  { word: "big", answer: "大きい", options: ["小さい", "大きい", "長い", "短い"] },
+  { word: "small", answer: "小さい", options: ["大きい", "高い", "小さい", "重い"] },
+  { word: "fast", answer: "速い", options: ["遅い", "速い", "低い", "暗い"] },
+  { word: "slow", answer: "遅い", options: ["速い", "遅い", "明るい", "新しい"] },
+  { word: "beautiful", answer: "美しい", options: ["美しい", "古い", "弱い", "簡単な"] },
+
+  { word: "morning", answer: "朝", options: ["夜", "昼", "朝", "夕方"] },
+  { word: "night", answer: "夜", options: ["朝", "昼", "夜", "午後"] },
+  { word: "sun", answer: "太陽", options: ["月", "星", "太陽", "雲"] },
+  { word: "moon", answer: "月", options: ["太陽", "月", "空", "雨"] },
+  { word: "star", answer: "星", options: ["星", "海", "山", "川"] },
+  { word: "rain", answer: "雨", options: ["雪", "風", "雨", "雲"] },
+  { word: "snow", answer: "雪", options: ["雨", "雪", "雷", "霧"] },
+  { word: "music", answer: "音楽", options: ["映画", "音楽", "写真", "絵"] },
+  { word: "movie", answer: "映画", options: ["本", "映画", "音楽", "新聞"] },
+  { word: "game", answer: "ゲーム", options: ["仕事", "勉強", "ゲーム", "料理"] },
+
+  { word: "eat", answer: "食べる", options: ["飲む", "走る", "食べる", "見る"] },
+  { word: "drink", answer: "飲む", options: ["飲む", "書く", "読む", "寝る"] },
+  { word: "run", answer: "走る", options: ["歩く", "走る", "泳ぐ", "飛ぶ"] },
+  { word: "walk", answer: "歩く", options: ["走る", "歩く", "座る", "立つ"] },
+  { word: "sleep", answer: "眠る", options: ["起きる", "眠る", "食べる", "話す"] },
+  { word: "read", answer: "読む", options: ["書く", "読む", "聞く", "話す"] },
+  { word: "write", answer: "書く", options: ["読む", "書く", "見る", "聞く"] },
+  { word: "speak", answer: "話す", options: ["聞く", "話す", "読む", "眠る"] },
+  { word: "listen", answer: "聞く", options: ["見る", "聞く", "走る", "書く"] },
+  { word: "see", answer: "見る", options: ["見る", "聞く", "話す", "歩く"] }
+];
+
+let questions = [];
+let currentIndex = 0;
+let score = 0;
+const questionCount = 30;
+
+function shuffle(array) {
+  return array.sort(() => Math.random() - 0.5);
+}
+
+function startQuiz() {
+  questions = shuffle([...quizData]).slice(0, questionCount);
+  currentIndex = 0;
+  score = 0;
+  document.getElementById("score").textContent = score;
+  document.getElementById("totalNum").textContent = questionCount;
+  document.getElementById("restartBtn").style.display = "none";
+  showQuestion();
+}
+
+function showQuestion() {
+  const q = questions[currentIndex];
+  document.getElementById("question").textContent = `「${q.word}」の意味は？`;
+  document.getElementById("currentNum").textContent = currentIndex + 1;
+  document.getElementById("result").textContent = "";
+  document.getElementById("nextBtn").style.display = "none";
+
+  const optionsDiv = document.getElementById("options");
+  optionsDiv.innerHTML = "";
+
+  shuffle([...q.options]).forEach(option => {
+    const btn = document.createElement("button");
+    btn.textContent = option;
+    btn.onclick = () => checkAnswer(btn, option, q.answer);
+    optionsDiv.appendChild(btn);
+  });
+}
+
+function checkAnswer(button, selected, correct) {
+  const buttons = document.querySelectorAll(".options button");
+
+  buttons.forEach(btn => {
+    btn.disabled = true;
+    if (btn.textContent === correct) {
+      btn.classList.add("correct");
+    }
+  });
+
+  if (selected === correct) {
+    button.classList.add("correct");
+    document.getElementById("result").textContent = "正解！";
+    score++;
+    document.getElementById("score").textContent = score;
+  } else {
+    button.classList.add("wrong");
+    document.getElementById("result").textContent = `不正解。正解は「${correct}」`;
+  }
+
+  if (currentIndex < questions.length - 1) {
+    document.getElementById("nextBtn").style.display = "inline-block";
+  } else {
+    document.getElementById("restartBtn").style.display = "inline-block";
+    document.getElementById("result").textContent += `　終了！あなたの点数は ${score} / ${questionCount} 点です。`;
+  }
+}
+
+function nextQuestion() {
+  currentIndex++;
+  showQuestion();
+}
+
+function restartQuiz() {
+  startQuiz();
+}
+
+startQuiz();
+</script>
+
+</body>
+</html>
