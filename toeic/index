@@ -1,1 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>英語クイズまとめ</title>
+<meta name="description" content="英単語・TOEIC・英文法などの無料英語クイズをまとめたサイトです。">
 
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:"Yu Gothic","Hiragino Sans",Arial,sans-serif;
+  background:#f3f6fb;
+  color:#111827;
+}
+
+.hero{
+  background:linear-gradient(135deg,#2563eb,#1d4ed8);
+  color:white;
+  text-align:center;
+  padding:60px 20px;
+}
+
+.hero h1{
+  margin:0;
+  font-size:42px;
+}
+
+.hero p{
+  margin:15px 0 0;
+  font-size:18px;
+}
+
+.container{
+  max-width:1100px;
+  margin:40px auto;
+  padding:20px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:24px;
+}
+
+.card{
+  background:white;
+  border-radius:20px;
+  padding:28px;
+  box-shadow:0 8px 24px rgba(0,0,0,.1);
+}
+
+.card:hover{
+  transform:translateY(-4px);
+  transition:.2s;
+}
+
+.tag{
+  display:inline-block;
+  background:#dbeafe;
+  color:#1d4ed8;
+  padding:6px 14px;
+  border-radius:999px;
+  font-size:13px;
+  font-weight:bold;
+  margin-bottom:14px;
+}
+
+.card h2{
+  margin:0 0 14px;
+  font-size:26px;
+}
+
+.card p{
+  line-height:1.8;
+  color:#374151;
+}
+
+.play-btn{
+  display:inline-block;
+  margin-top:18px;
+  padding:14px 22px;
+  background:#2563eb;
+  color:white;
+  text-decoration:none;
+  border-radius:12px;
+  font-weight:bold;
+}
+
+.play-btn:hover{
+  background:#1d4ed8;
+}
+
+footer{
+  text-align:center;
+  padding:35px;
+  color:#6b7280;
+}
+
+@media(max-width:768px){
+  .hero h1{font-size:32px}
+}
+</style>
+</head>
+
+<body>
+
+<header class="hero">
+  <h1>英語クイズまとめ</h1>
+  <p>英単語・TOEIC・英文法クイズを無料で遊べる！</p>
+</header>
+
+<main class="container">
+
+  <article class="card">
+    <div class="tag">人気</div>
+    <h2>英語クイズ100問</h2>
+    <p>初級・中級・上級に分かれた大型英語クイズ。英単語・文法・熟語まで対応。</p>
+    <a class="play-btn" href="./english-100/">クイズを遊ぶ</a>
+  </article>
+
+  <article class="card">
+    <div class="tag">英単語</div>
+    <h2>英単語クイズ</h2>
+    <p>基本英単語を4択で学べる初心者向けクイズ。ランダム30問出題。</p>
+    <a class="play-btn" href="./english-word/">クイズを遊ぶ</a>
+  </article>
+
+  <article class="card">
+    <div class="tag">TOEIC</div>
+    <h2>TOEICクイズゲーム</h2>
+    <p>TOEIC頻出単語・文法・ビジネス英語問題を収録。</p>
+    <a class="play-btn" href="./toeic/">クイズを遊ぶ</a>
+  </article>
+
+</main>
+
+<footer>
+  © 英語クイズまとめ
+</footer>
+
+</body>
+</html>
