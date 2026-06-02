@@ -1,1 +1,230 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>英語クイズ100問</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:"Yu Gothic","Hiragino Sans",sans-serif;background:linear-gradient(135deg,#e8f7ff,#5fa8d3);min-height:100vh;color:#102a43}
+.ad-top{position:fixed;top:12px;right:12px;width:300px;height:90px;border:2px dashed #1f6f9f;border-radius:12px;background:white;display:flex;align-items:center;justify-content:center;text-align:center;z-index:10;font-size:14px;color:#1f6f9f}
+.wrap{max-width:880px;margin:auto;padding:120px 16px 40px}
+.game{background:rgba(255,255,255,.96);border:4px solid #1f6f9f;border-radius:24px;padding:26px;text-align:center;box-shadow:0 12px 30px rgba(0,0,0,.22)}
+h1{margin-top:0;font-size:34px}
+.menu{display:grid;gap:14px;margin-top:20px}
+button{font-size:18px;padding:14px;border:none;border-radius:14px;cursor:pointer;background:#1f6f9f;color:white;font-weight:bold;transition:.15s}
+button:hover{transform:scale(1.03);opacity:.95}
+.easy{background:#2e8b57}
+.normal{background:#1976a3}
+.hard{background:#7b3fb3}
+.status{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-weight:bold;margin-bottom:18px;background:#eaf8ff;border-radius:12px;padding:10px}
+.question{font-size:24px;font-weight:bold;background:#f2fbff;border-radius:16px;padding:26px;margin-bottom:20px;line-height:1.6}
+.choices{display:grid;gap:12px}
+.correct{background:#2e8b57!important}
+.wrong{background:#b22222!important}
+.result{font-size:22px;font-weight:bold;margin-top:18px;min-height:32px}
+.comment{margin-top:12px;font-size:15px;color:#345;line-height:1.6}
+.next{margin-top:18px;background:#1f4e79;display:none}
+.restart{margin-top:18px;background:#6b3fa0;display:none}
+.ad-bottom{margin-top:24px;height:100px;border:2px dashed #1f6f9f;border-radius:14px;background:white;display:flex;justify-content:center;align-items:center;text-align:center;font-size:14px;color:#1f6f9f}
+.hidden{display:none}
+.badge{display:inline-block;background:#eaf8ff;border:1px solid #85c6e8;border-radius:999px;padding:6px 12px;margin:4px;font-weight:bold}
+@media(max-width:900px){.ad-top{position:static;width:auto;height:70px;margin:12px}.wrap{padding-top:20px}h1{font-size:28px}.question{font-size:21px}button{font-size:16px}}
+</style>
+</head>
+<body>
+
+<div class="ad-top"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8398161859137802"
+     crossorigin="anonymous"></script>
+<!-- チェス -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8398161859137802"
+     data-ad-slot="5599163841"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+
+<div class="wrap">
+<div class="game">
+<h1>🔤 英語クイズ100問</h1>
+
+<div id="menu">
+  <p>難易度を選んでください</p>
+  <div>
+    <span class="badge">初級34問</span>
+    <span class="badge">中級33問</span>
+    <span class="badge">上級33問</span>
+    <span class="badge">合計100問</span>
+  </div>
+  <div class="menu">
+    <button class="easy" onclick="startGame('easy')">初級：英単語</button>
+    <button class="normal" onclick="startGame('normal')">中級：英文法・会話</button>
+    <button class="hard" onclick="startGame('hard')">上級：熟語・表現</button>
+    <button onclick="startGame('all')">全100問ランダム</button>
+  </div>
+</div>
+
+<div id="quiz" class="hidden">
+  <div class="status">
+    <div>難易度：<span id="levelName"></span></div>
+    <div>問題：<span id="count"></span>/<span id="total"></span></div>
+    <div>スコア：<span id="score">0</span></div>
+  </div>
+
+  <div class="question" id="question"></div>
+  <div class="choices" id="choices"></div>
+  <div class="result" id="result"></div>
+  <div class="comment" id="comment"></div>
+
+  <button class="next" id="nextBtn" onclick="nextQuestion()">次の問題へ</button>
+  <button class="restart" id="restartBtn" onclick="restartGame()">メニューに戻る</button>
+</div>
+
+<div class="ad-bottom"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8398161859137802"
+     crossorigin="anonymous"></script>
+<!-- チェス -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8398161859137802"
+     data-ad-slot="5599163841"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+</div>
+</div>
+
+<script>
+const quizData = [{"level": "easy", "q": "「apple」の意味は？", "c": ["りんご", "みかん", "ぶどう", "ばなな"], "a": "りんご", "e": "apple は「りんご」という意味です。"}, {"level": "easy", "q": "「dog」の意味は？", "c": ["犬", "猫", "鳥", "魚"], "a": "犬", "e": "dog は「犬」という意味です。"}, {"level": "easy", "q": "「cat」の意味は？", "c": ["猫", "犬", "馬", "牛"], "a": "猫", "e": "cat は「猫」という意味です。"}, {"level": "easy", "q": "「book」の意味は？", "c": ["本", "机", "椅子", "鉛筆"], "a": "本", "e": "book は「本」という意味です。"}, {"level": "easy", "q": "「water」の意味は？", "c": ["水", "火", "空気", "土"], "a": "水", "e": "water は「水」という意味です。"}, {"level": "easy", "q": "「school」の意味は？", "c": ["学校", "病院", "駅", "会社"], "a": "学校", "e": "school は「学校」という意味です。"}, {"level": "easy", "q": "「teacher」の意味は？", "c": ["先生", "生徒", "医者", "警察官"], "a": "先生", "e": "teacher は「先生」という意味です。"}, {"level": "easy", "q": "「student」の意味は？", "c": ["生徒", "先生", "会社員", "運転手"], "a": "生徒", "e": "student は「生徒・学生」という意味です。"}, {"level": "easy", "q": "「car」の意味は？", "c": ["車", "電車", "飛行機", "船"], "a": "車", "e": "car は「車」という意味です。"}, {"level": "easy", "q": "「train」の意味は？", "c": ["電車", "車", "自転車", "船"], "a": "電車", "e": "train は「電車・列車」という意味です。"}, {"level": "easy", "q": "「sun」の意味は？", "c": ["太陽", "月", "星", "雲"], "a": "太陽", "e": "sun は「太陽」という意味です。"}, {"level": "easy", "q": "「moon」の意味は？", "c": ["月", "太陽", "星", "空"], "a": "月", "e": "moon は「月」という意味です。"}, {"level": "easy", "q": "「star」の意味は？", "c": ["星", "月", "太陽", "雲"], "a": "星", "e": "star は「星」という意味です。"}, {"level": "easy", "q": "「red」の意味は？", "c": ["赤", "青", "白", "黒"], "a": "赤", "e": "red は「赤」という意味です。"}, {"level": "easy", "q": "「blue」の意味は？", "c": ["青", "赤", "黄色", "緑"], "a": "青", "e": "blue は「青」という意味です。"}, {"level": "easy", "q": "「white」の意味は？", "c": ["白", "黒", "赤", "緑"], "a": "白", "e": "white は「白」という意味です。"}, {"level": "easy", "q": "「black」の意味は？", "c": ["黒", "白", "青", "赤"], "a": "黒", "e": "black は「黒」という意味です。"}, {"level": "easy", "q": "「big」の意味は？", "c": ["大きい", "小さい", "速い", "遅い"], "a": "大きい", "e": "big は「大きい」という意味です。"}, {"level": "easy", "q": "「small」の意味は？", "c": ["小さい", "大きい", "高い", "低い"], "a": "小さい", "e": "small は「小さい」という意味です。"}, {"level": "easy", "q": "「hot」の意味は？", "c": ["暑い・熱い", "寒い", "新しい", "古い"], "a": "暑い・熱い", "e": "hot は「暑い・熱い」という意味です。"}, {"level": "easy", "q": "「cold」の意味は？", "c": ["寒い・冷たい", "暑い", "明るい", "暗い"], "a": "寒い・冷たい", "e": "cold は「寒い・冷たい」という意味です。"}, {"level": "easy", "q": "「happy」の意味は？", "c": ["幸せな", "悲しい", "怒った", "眠い"], "a": "幸せな", "e": "happy は「幸せな」という意味です。"}, {"level": "easy", "q": "「sad」の意味は？", "c": ["悲しい", "楽しい", "強い", "弱い"], "a": "悲しい", "e": "sad は「悲しい」という意味です。"}, {"level": "easy", "q": "「good」の意味は？", "c": ["良い", "悪い", "古い", "重い"], "a": "良い", "e": "good は「良い」という意味です。"}, {"level": "easy", "q": "「bad」の意味は？", "c": ["悪い", "良い", "新しい", "軽い"], "a": "悪い", "e": "bad は「悪い」という意味です。"}, {"level": "easy", "q": "「morning」の意味は？", "c": ["朝", "昼", "夜", "夕方"], "a": "朝", "e": "morning は「朝」という意味です。"}, {"level": "easy", "q": "「night」の意味は？", "c": ["夜", "朝", "昼", "夕方"], "a": "夜", "e": "night は「夜」という意味です。"}, {"level": "easy", "q": "「family」の意味は？", "c": ["家族", "友達", "先生", "会社"], "a": "家族", "e": "family は「家族」という意味です。"}, {"level": "easy", "q": "「friend」の意味は？", "c": ["友達", "家族", "先生", "医者"], "a": "友達", "e": "friend は「友達」という意味です。"}, {"level": "easy", "q": "「food」の意味は？", "c": ["食べ物", "飲み物", "服", "家"], "a": "食べ物", "e": "food は「食べ物」という意味です。"}, {"level": "easy", "q": "「house」の意味は？", "c": ["家", "学校", "店", "駅"], "a": "家", "e": "house は「家」という意味です。"}, {"level": "easy", "q": "「city」の意味は？", "c": ["都市", "村", "国", "島"], "a": "都市", "e": "city は「都市」という意味です。"}, {"level": "easy", "q": "「country」の意味は？", "c": ["国", "都市", "道", "海"], "a": "国", "e": "country は「国」という意味です。"}, {"level": "easy", "q": "「music」の意味は？", "c": ["音楽", "映画", "本", "写真"], "a": "音楽", "e": "music は「音楽」という意味です。"}, {"level": "normal", "q": "I ___ a student. 空欄に入るのは？", "c": ["am", "is", "are", "be"], "a": "am", "e": "主語が I のときは am を使います。"}, {"level": "normal", "q": "He ___ my brother. 空欄に入るのは？", "c": ["is", "am", "are", "be"], "a": "is", "e": "He のbe動詞は is です。"}, {"level": "normal", "q": "They ___ happy. 空欄に入るのは？", "c": ["are", "is", "am", "be"], "a": "are", "e": "They のbe動詞は are です。"}, {"level": "normal", "q": "This is ___ apple. 空欄に入るのは？", "c": ["an", "a", "the", "is"], "a": "an", "e": "apple は母音で始まるため an を使います。"}, {"level": "normal", "q": "This is ___ book. 空欄に入るのは？", "c": ["a", "an", "are", "am"], "a": "a", "e": "book は子音で始まるため a を使います。"}, {"level": "normal", "q": "I like English. の意味は？", "c": ["私は英語が好きです", "私は英語を話せません", "私は英語を勉強しません", "私は英語の先生です"], "a": "私は英語が好きです", "e": "like は「好き」という意味です。"}, {"level": "normal", "q": "Do you like cats? の意味は？", "c": ["あなたは猫が好きですか", "あなたは猫を飼っていますか", "あなたは犬が好きですか", "猫はどこですか"], "a": "あなたは猫が好きですか", "e": "Do you like...? は「あなたは〜が好きですか」です。"}, {"level": "normal", "q": "I don't know. の意味は？", "c": ["わかりません", "知っています", "行きません", "見えません"], "a": "わかりません", "e": "I don't know. は「わかりません」です。"}, {"level": "normal", "q": "Thank you. の返事として自然なのは？", "c": ["You're welcome.", "Good night.", "I'm sorry.", "See you."], "a": "You're welcome.", "e": "Thank you. への返事は You're welcome. が自然です。"}, {"level": "normal", "q": "How are you? の意味は？", "c": ["元気ですか", "何時ですか", "どこですか", "誰ですか"], "a": "元気ですか", "e": "How are you? は挨拶で「元気ですか」です。"}, {"level": "normal", "q": "I'm fine. の意味は？", "c": ["元気です", "眠いです", "忙しいです", "寒いです"], "a": "元気です", "e": "I'm fine. は「元気です」です。"}, {"level": "normal", "q": "What is this? の意味は？", "c": ["これは何ですか", "あなたは誰ですか", "どこですか", "何時ですか"], "a": "これは何ですか", "e": "What is this? は「これは何ですか」です。"}, {"level": "normal", "q": "Where are you from? の意味は？", "c": ["出身はどこですか", "どこへ行きますか", "何をしていますか", "何歳ですか"], "a": "出身はどこですか", "e": "Where are you from? は「出身はどこですか」です。"}, {"level": "normal", "q": "I can swim. の意味は？", "c": ["私は泳げます", "私は泳ぎません", "私は泳ぎたいです", "私は泳いでいます"], "a": "私は泳げます", "e": "can は「〜できる」という意味です。"}, {"level": "normal", "q": "Can you help me? の意味は？", "c": ["手伝ってくれますか", "私を見ましたか", "行ってもいいですか", "食べますか"], "a": "手伝ってくれますか", "e": "Can you help me? は「手伝ってくれますか」です。"}, {"level": "normal", "q": "I have a pen. の意味は？", "c": ["私はペンを持っています", "私はペンが好きです", "私はペンを書きます", "私はペンを買います"], "a": "私はペンを持っています", "e": "have は「持っている」です。"}, {"level": "normal", "q": "She likes music. の主語は？", "c": ["She", "likes", "music", "なし"], "a": "She", "e": "文の主語は She です。"}, {"level": "normal", "q": "We play soccer. の意味は？", "c": ["私たちはサッカーをします", "彼らは野球をします", "私はサッカーを見ます", "私たちは勉強します"], "a": "私たちはサッカーをします", "e": "play soccer は「サッカーをする」です。"}, {"level": "normal", "q": "I went to school. の時制は？", "c": ["過去形", "現在形", "未来形", "現在進行形"], "a": "過去形", "e": "went は go の過去形です。"}, {"level": "normal", "q": "go の過去形は？", "c": ["went", "goed", "goes", "going"], "a": "went", "e": "go の過去形は went です。"}, {"level": "normal", "q": "eat の過去形は？", "c": ["ate", "eated", "eats", "eating"], "a": "ate", "e": "eat の過去形は ate です。"}, {"level": "normal", "q": "see の過去形は？", "c": ["saw", "seed", "seen", "seeing"], "a": "saw", "e": "see の過去形は saw です。"}, {"level": "normal", "q": "make の過去形は？", "c": ["made", "maked", "makes", "making"], "a": "made", "e": "make の過去形は made です。"}, {"level": "normal", "q": "take の過去形は？", "c": ["took", "taked", "taken", "takes"], "a": "took", "e": "take の過去形は took です。"}, {"level": "normal", "q": "I will study tomorrow. の意味は？", "c": ["私は明日勉強します", "私は昨日勉強しました", "私は今勉強しています", "私は勉強しません"], "a": "私は明日勉強します", "e": "will は未来を表します。"}, {"level": "normal", "q": "What time is it? の意味は？", "c": ["何時ですか", "どこですか", "誰ですか", "いくらですか"], "a": "何時ですか", "e": "What time is it? は「何時ですか」です。"}, {"level": "normal", "q": "How much is this? の意味は？", "c": ["これはいくらですか", "これは何ですか", "これは誰のですか", "これはどこですか"], "a": "これはいくらですか", "e": "How much is this? は「これはいくらですか」です。"}, {"level": "normal", "q": "I'm hungry. の意味は？", "c": ["お腹がすいています", "眠いです", "寒いです", "忙しいです"], "a": "お腹がすいています", "e": "hungry は「空腹の」です。"}, {"level": "normal", "q": "I'm tired. の意味は？", "c": ["疲れています", "楽しいです", "怒っています", "悲しいです"], "a": "疲れています", "e": "tired は「疲れた」です。"}, {"level": "normal", "q": "Please sit down. の意味は？", "c": ["座ってください", "立ってください", "来てください", "見てください"], "a": "座ってください", "e": "sit down は「座る」です。"}, {"level": "normal", "q": "Open the door. の意味は？", "c": ["ドアを開けて", "ドアを閉めて", "窓を開けて", "本を開いて"], "a": "ドアを開けて", "e": "open は「開ける」です。"}, {"level": "normal", "q": "Close the window. の意味は？", "c": ["窓を閉めて", "窓を開けて", "ドアを閉めて", "本を閉じて"], "a": "窓を閉めて", "e": "close は「閉める」です。"}, {"level": "normal", "q": "Nice to meet you. の意味は？", "c": ["はじめまして", "さようなら", "おやすみ", "ありがとう"], "a": "はじめまして", "e": "Nice to meet you. は「はじめまして」です。"}, {"level": "hard", "q": "「however」の意味に近いものは？", "c": ["しかしながら", "そのため", "例えば", "さらに"], "a": "しかしながら", "e": "however は「しかしながら」という逆接の表現です。"}, {"level": "hard", "q": "「therefore」の意味に近いものは？", "c": ["したがって", "しかし", "例えば", "一方で"], "a": "したがって", "e": "therefore は「したがって」という意味です。"}, {"level": "hard", "q": "「although」の意味は？", "c": ["〜だけれども", "〜なので", "〜するために", "〜するまで"], "a": "〜だけれども", "e": "although は「〜だけれども」です。"}, {"level": "hard", "q": "「because of」の意味は？", "c": ["〜のために", "〜にもかかわらず", "〜の代わりに", "〜に加えて"], "a": "〜のために", "e": "because of は理由を表します。"}, {"level": "hard", "q": "「instead of」の意味は？", "c": ["〜の代わりに", "〜に加えて", "〜のために", "〜にもかかわらず"], "a": "〜の代わりに", "e": "instead of は「〜の代わりに」です。"}, {"level": "hard", "q": "「in addition」の意味は？", "c": ["さらに", "しかし", "つまり", "例えば"], "a": "さらに", "e": "in addition は「さらに」です。"}, {"level": "hard", "q": "「for example」の意味は？", "c": ["例えば", "つまり", "一方で", "結局"], "a": "例えば", "e": "for example は「例えば」です。"}, {"level": "hard", "q": "「in other words」の意味は？", "c": ["言い換えると", "例えば", "しかし", "その結果"], "a": "言い換えると", "e": "in other words は「言い換えると」です。"}, {"level": "hard", "q": "「as soon as possible」の意味は？", "c": ["できるだけ早く", "ゆっくりと", "たまに", "突然"], "a": "できるだけ早く", "e": "ASAP は as soon as possible の略です。"}, {"level": "hard", "q": "「look forward to」の意味は？", "c": ["楽しみにする", "探す", "見下ろす", "世話をする"], "a": "楽しみにする", "e": "look forward to は「楽しみにする」です。"}, {"level": "hard", "q": "「take care of」の意味は？", "c": ["世話をする", "写真を撮る", "持っていく", "気をつける"], "a": "世話をする", "e": "take care of は「世話をする」です。"}, {"level": "hard", "q": "「give up」の意味は？", "c": ["あきらめる", "与える", "起きる", "拾う"], "a": "あきらめる", "e": "give up は「あきらめる」です。"}, {"level": "hard", "q": "「put off」の意味は？", "c": ["延期する", "着る", "消す", "提出する"], "a": "延期する", "e": "put off は「延期する」です。"}, {"level": "hard", "q": "「carry out」の意味は？", "c": ["実行する", "運び出す", "中止する", "待つ"], "a": "実行する", "e": "carry out は「実行する」です。"}, {"level": "hard", "q": "「come up with」の意味は？", "c": ["思いつく", "近づく", "落ちる", "起きる"], "a": "思いつく", "e": "come up with は「思いつく」です。"}, {"level": "hard", "q": "「It depends.」の意味は？", "c": ["場合によります", "それは簡単です", "私は反対です", "急いでいます"], "a": "場合によります", "e": "It depends. は「場合によります」です。"}, {"level": "hard", "q": "「I agree with you.」の意味は？", "c": ["あなたに賛成です", "あなたに会います", "あなたを助けます", "あなたを待ちます"], "a": "あなたに賛成です", "e": "agree with は「〜に賛成する」です。"}, {"level": "hard", "q": "「I'm not sure.」の意味は？", "c": ["よくわかりません", "確信しています", "急いでいます", "忘れました"], "a": "よくわかりません", "e": "I'm not sure. は「よくわかりません」です。"}, {"level": "hard", "q": "「Could you say that again?」の意味は？", "c": ["もう一度言っていただけますか", "助けてもらえますか", "座ってもいいですか", "名前を教えてください"], "a": "もう一度言っていただけますか", "e": "聞き返すときに使える丁寧な表現です。"}, {"level": "hard", "q": "「What do you mean?」の意味は？", "c": ["どういう意味ですか", "何をしますか", "どこへ行きますか", "何時ですか"], "a": "どういう意味ですか", "e": "mean は「意味する」です。"}, {"level": "hard", "q": "「I used to play tennis.」の意味は？", "c": ["以前はテニスをしていました", "今テニスをしています", "これからテニスをします", "テニスをしたことがありません"], "a": "以前はテニスをしていました", "e": "used to は「以前は〜していた」です。"}, {"level": "hard", "q": "「I have been to Canada.」の意味は？", "c": ["カナダに行ったことがあります", "カナダにいます", "カナダへ行く予定です", "カナダ出身です"], "a": "カナダに行ったことがあります", "e": "have been to は「〜へ行ったことがある」です。"}, {"level": "hard", "q": "「If it rains, I will stay home.」の意味は？", "c": ["雨が降ったら家にいます", "雨が降っても出かけます", "雨が降ったので家にいました", "雨は降りません"], "a": "雨が降ったら家にいます", "e": "If は条件を表します。"}, {"level": "hard", "q": "「The book was written by him.」の文の形は？", "c": ["受動態", "現在進行形", "命令文", "比較級"], "a": "受動態", "e": "was written by は受動態です。"}, {"level": "hard", "q": "「This is the best movie I have ever seen.」の意味は？", "c": ["今まで見た中で最高の映画です", "これは悪い映画です", "これは最初に見た映画です", "映画を見たことがありません"], "a": "今まで見た中で最高の映画です", "e": "the best ... I have ever seen は最上級の表現です。"}, {"level": "hard", "q": "「as tall as」の意味は？", "c": ["〜と同じくらい背が高い", "〜より背が高い", "〜ほど背が高くない", "最も背が高い"], "a": "〜と同じくらい背が高い", "e": "as 形容詞 as は同等比較です。"}, {"level": "hard", "q": "「more important than」の意味は？", "c": ["〜より重要な", "最も重要な", "同じくらい重要な", "重要ではない"], "a": "〜より重要な", "e": "more ... than は比較級です。"}, {"level": "hard", "q": "「the most difficult」の意味は？", "c": ["最も難しい", "より難しい", "同じくらい難しい", "難しくない"], "a": "最も難しい", "e": "the most は最上級です。"}, {"level": "hard", "q": "「Neither A nor B」の意味は？", "c": ["AもBも〜ない", "AかBのどちらか", "AだけでなくBも", "AなのでB"], "a": "AもBも〜ない", "e": "Neither A nor B は「AもBも〜ない」です。"}, {"level": "hard", "q": "「Not only A but also B」の意味は？", "c": ["AだけでなくBも", "AもBも〜ない", "AかBのどちらか", "AよりB"], "a": "AだけでなくBも", "e": "Not only A but also B は「AだけでなくBも」です。"}, {"level": "hard", "q": "「I wish I could fly.」の意味は？", "c": ["飛べたらいいのに", "私は飛べます", "飛ぶ予定です", "飛びたくありません"], "a": "飛べたらいいのに", "e": "I wish I could は仮定を表します。"}, {"level": "hard", "q": "「You should see a doctor.」の意味は？", "c": ["医者に診てもらうべきです", "医者です", "医者を見ました", "医者になりたいです"], "a": "医者に診てもらうべきです", "e": "should は「〜すべき」です。"}, {"level": "hard", "q": "「I have to finish this today.」の意味は？", "c": ["今日これを終えなければならない", "今日これを始めたい", "今日これは終わりました", "今日は休みです"], "a": "今日これを終えなければならない", "e": "have to は「〜しなければならない」です。"}];
+
+let currentQuiz = [];
+let current = 0;
+let score = 0;
+let answered = false;
+
+const menu = document.getElementById("menu");
+const quiz = document.getElementById("quiz");
+const questionEl = document.getElementById("question");
+const choicesEl = document.getElementById("choices");
+const resultEl = document.getElementById("result");
+const commentEl = document.getElementById("comment");
+const countEl = document.getElementById("count");
+const totalEl = document.getElementById("total");
+const scoreEl = document.getElementById("score");
+const nextBtn = document.getElementById("nextBtn");
+const restartBtn = document.getElementById("restartBtn");
+const levelNameEl = document.getElementById("levelName");
+
+function shuffle(arr) {
+  return arr.sort(() => Math.random() - 0.5);
+}
+
+function startGame(level) {
+  if(level === "all") {
+    currentQuiz = shuffle([...quizData]);
+    levelNameEl.textContent = "全100問";
+  } else {
+    currentQuiz = shuffle(quizData.filter(x => x.level === level));
+    levelNameEl.textContent = level === "easy" ? "初級" : level === "normal" ? "中級" : "上級";
+  }
+
+  current = 0;
+  score = 0;
+  scoreEl.textContent = score;
+  totalEl.textContent = currentQuiz.length;
+
+  menu.classList.add("hidden");
+  quiz.classList.remove("hidden");
+  restartBtn.style.display = "none";
+
+  loadQuestion();
+}
+
+function loadQuestion() {
+  answered = false;
+  resultEl.textContent = "";
+  commentEl.textContent = "";
+  nextBtn.style.display = "none";
+  choicesEl.innerHTML = "";
+
+  const q = currentQuiz[current];
+  countEl.textContent = current + 1;
+  questionEl.textContent = q.q;
+
+  shuffle([...q.c]).forEach(choice => {
+    const btn = document.createElement("button");
+    btn.textContent = choice;
+    btn.onclick = () => checkAnswer(btn, choice);
+    choicesEl.appendChild(btn);
+  });
+}
+
+function checkAnswer(button, selected) {
+  if(answered) return;
+  answered = true;
+
+  const q = currentQuiz[current];
+  const buttons = choicesEl.querySelectorAll("button");
+
+  buttons.forEach(btn => {
+    btn.disabled = true;
+    if(btn.textContent === q.a) btn.classList.add("correct");
+  });
+
+  if(selected === q.a) {
+    score += 10;
+    scoreEl.textContent = score;
+    resultEl.textContent = "正解！";
+  } else {
+    button.classList.add("wrong");
+    resultEl.textContent = "不正解…";
+  }
+
+  commentEl.textContent = q.e;
+
+  if(current < currentQuiz.length - 1) {
+    nextBtn.style.display = "inline-block";
+  } else {
+    finishGame();
+  }
+}
+
+function nextQuestion() {
+  current++;
+  loadQuestion();
+}
+
+function finishGame() {
+  const max = currentQuiz.length * 10;
+  const rate = Math.round(score / max * 100);
+
+  questionEl.textContent = "ゲーム終了！";
+  choicesEl.innerHTML = "";
+  nextBtn.style.display = "none";
+  restartBtn.style.display = "inline-block";
+
+  commentEl.textContent = `スコアは ${score}/${max} 点、正答率 ${rate}% です。`;
+
+  if(rate === 100) {
+    resultEl.textContent = "🏆 全問正解！英語マスターです！";
+  } else if(rate >= 80) {
+    resultEl.textContent = "🎉 かなり優秀です！";
+  } else if(rate >= 50) {
+    resultEl.textContent = "👍 まずまずです！";
+  } else {
+    resultEl.textContent = "📚 もう一度挑戦して覚えよう！";
+  }
+}
+
+function restartGame() {
+  quiz.classList.add("hidden");
+  menu.classList.remove("hidden");
+}
+</script>
+</body>
+</html>
 
