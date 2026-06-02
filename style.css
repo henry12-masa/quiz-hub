@@ -1,1 +1,146 @@
+body {
+  margin: 0;
+  font-family: Arial, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  background: #f4f7fb;
+  color: #222;
+}
 
+header {
+  text-align: center;
+  padding: 28px 12px;
+  background: #1f2937;
+  color: white;
+}
+
+header h1 {
+  margin: 0 0 8px;
+  font-size: 32px;
+}
+
+nav {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 18px;
+  background: white;
+}
+
+nav a {
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  color: #111;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+nav a.active {
+  background: #2563eb;
+  color: white;
+}
+
+main {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 24px;
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 0 16px;
+}
+
+.quiz-box {
+  background: white;
+  padding: 28px;
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+.status {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  margin-bottom: 14px;
+}
+
+.progress {
+  height: 12px;
+  background: #e5e7eb;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+#progressBar {
+  height: 100%;
+  width: 0%;
+  background: #22c55e;
+  transition: 0.3s;
+}
+
+#question {
+  font-size: 26px;
+  margin-bottom: 24px;
+}
+
+#choices {
+  display: grid;
+  gap: 12px;
+}
+
+#choices button {
+  padding: 16px;
+  font-size: 18px;
+  border: none;
+  border-radius: 12px;
+  background: #f1f5f9;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#choices button:hover {
+  background: #dbeafe;
+}
+
+#choices button.correct {
+  background: #86efac;
+}
+
+#choices button.wrong {
+  background: #fca5a5;
+}
+
+#result {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.ad-box {
+  background: white;
+  padding: 16px;
+  border-radius: 16px;
+  text-align: center;
+  min-height: 280px;
+}
+
+@media (max-width: 800px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+}
+
+nav button {
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  color: #111;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+nav button.active {
+  background: #2563eb;
+  color: white;
+}
